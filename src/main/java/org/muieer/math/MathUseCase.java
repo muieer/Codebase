@@ -21,7 +21,9 @@ public class MathUseCase {
         int x = random.nextInt(2000);
         log.info("x is " + x);
 
+        // 是否 2 的 n 次幂
         log.info("x is power of two:" + IntMath.isPowerOfTwo(x));
+        // 大于等于给定数的最小 2 的 n 次幂
         log.info("the smallest next power of two of x is " + IntMath.ceilingPowerOfTwo(x));
     }
 
