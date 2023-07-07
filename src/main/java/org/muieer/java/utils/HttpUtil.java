@@ -1,4 +1,4 @@
-package org.muieer.utils;
+package org.muieer.java.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
