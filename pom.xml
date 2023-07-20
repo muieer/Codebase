@@ -30,6 +30,20 @@
 
     <build>
         <plugins>
+<!--            https://maven.apache.org/plugins/maven-source-plugin/ -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 <!--            用来生成 Java Doc-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
