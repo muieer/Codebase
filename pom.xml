@@ -26,7 +26,7 @@
             <artifactId>gson</artifactId>
             <version>2.8.9</version>
         </dependency>
-        <!--        基于 JVM 的缓存，https://github.com/ben-manes/caffeine/wiki/ -->
+        <!-- https://github.com/ben-manes/caffeine/wiki/ -->
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>

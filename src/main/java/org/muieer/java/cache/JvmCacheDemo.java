@@ -6,6 +6,9 @@ import lombok.NonNull;
 
 import java.util.concurrent.TimeUnit;
 
+/*
+* Caffeine Benchmarks：https://github.com/ben-manes/caffeine/wiki/Benchmarks
+* */
 public class JvmCacheDemo {
 
     private JvmCacheDemo() {}
