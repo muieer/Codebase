@@ -14,6 +14,33 @@ public class HdfsUtil {
 
     private HdfsUtil() {}
 
+    /*
+     * 指数退避算法，等待时间指数增长
+     * https://developer.aliyun.com/article/748634
+     * */
+    public static boolean checkPathExist(FileSystem fs, Path path, int maxRetry, int initialDelaySeconds)  {
+
+        boolean exist = false;
+        long retryDelay = initialDelaySeconds * 1000L;
+
+        for (int i = 0; i < maxRetry; ++i) {
+            try {
+                if (fs.exists(path)) {
+                    exist = true;
+                    break;
+                } else {
+                    Thread.sleep(retryDelay);
+                    retryDelay *= 2;
+                }
+            } catch (IOException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return exist;
+
+    }
+
     // 创建一个新文件，并写入指定内容到目标路径
     public static void createNewFile(FileSystem fileSystem, String path, String content) throws Exception {
         Path newPath = new Path(path);
