@@ -1,4 +1,4 @@
-package org.muieer.java.utils;
+package org.muieer.java.http;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -11,11 +11,9 @@ import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class HttpUtil {
+public class HttpUtilForJdk11 {
 
     private static final String GET_METHOD = "GET";
     private static final String POST_METHOD = "POST";
@@ -23,7 +21,7 @@ public class HttpUtil {
     private static final String APPLICATION_JSON = "application/json";
     private static final Gson gson = new Gson();
 
-    private HttpUtil() {}
+    private HttpUtilForJdk11() {}
 
     public static <T> T sendGetRequest(String url, Map<String, String> params, Class<T> clazz) throws HttpException {
         return sendGetRequest(url, params, clazz, null);
