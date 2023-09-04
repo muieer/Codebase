@@ -35,3 +35,5 @@ build/
 .DS_Store
 
 temp_data
+
+src/main/resources/hikari.properties
