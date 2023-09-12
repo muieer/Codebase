@@ -44,6 +44,7 @@ public class CustomClassLoader extends ClassLoader {
         return clazz;
     }
 
+    //  https://stackoverflow.com/questions/67275/reading-from-a-zipinputstream-into-a-bytearrayoutputstream
     private byte[] getClassBytes2(String className) {
 
         byte[] classBytes;
