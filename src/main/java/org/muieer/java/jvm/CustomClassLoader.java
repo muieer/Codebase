@@ -6,9 +6,11 @@ import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 
+import java.io.InputStream;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 public class CustomClassLoader extends ClassLoader {
@@ -31,7 +33,7 @@ public class CustomClassLoader extends ClassLoader {
             return clazz;
         }
 
-        byte[] classData = getClassBytes(name);
+        byte[] classData = getClassBytes2(name);
         if (classData == null) {
             throw new ClassNotFoundException("Class " + name + " not found");
         }
@@ -40,6 +42,28 @@ public class CustomClassLoader extends ClassLoader {
         loadClasses.put(name, clazz);
 
         return clazz;
+    }
+
+    private byte[] getClassBytes2(String className) {
+
+        byte[] classBytes;
+        String classPath = className.replace('.', '/') + ".class";
+
+        try (
+                ZipFile zipFile = new ZipFile(jarPath)
+        ) {
+            ZipEntry entry = zipFile.getEntry(classPath);
+            try (
+                    InputStream zipFileInputStream = zipFile.getInputStream(entry)
+            ) {
+                classBytes = IOUtils.toByteArray(zipFileInputStream);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return classBytes;
     }
 
     private byte[] getClassBytes(String className) {
@@ -69,6 +93,12 @@ public class CustomClassLoader extends ClassLoader {
         }
 
         return classBytes;
+    }
+
+    // 谨慎重写此方法，要遵循双亲委派模型的类加载原则，loadClass 内部会调用 findClass() 方法
+    @Override
+    public Class<?> loadClass(String name) throws ClassNotFoundException {
+        return super.loadClass(name);
     }
 
     public static void main(String[] args) throws Exception {
