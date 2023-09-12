@@ -48,12 +48,12 @@ public class CustomClassLoader extends ClassLoader {
     private byte[] getClassBytes2(String className) {
 
         byte[] classBytes;
-        String classPath = className.replace('.', '/') + ".class";
+        String classFilePath = className.replace('.', '/') + ".class";
 
         try (
                 ZipFile zipFile = new ZipFile(jarPath)
         ) {
-            ZipEntry entry = zipFile.getEntry(classPath);
+            ZipEntry entry = zipFile.getEntry(classFilePath);
             try (
                     InputStream zipFileInputStream = zipFile.getInputStream(entry)
             ) {
@@ -70,7 +70,7 @@ public class CustomClassLoader extends ClassLoader {
     private byte[] getClassBytes(String className) {
 
         byte[] classBytes = null;
-        String classPath = className.replace('.', '/') + ".class";
+        String classFilePath = className.replace('.', '/') + ".class";
 
         try (
                 FSDataInputStream fsDataInputStream = fileSystem.open(new Path(jarPath));
@@ -83,7 +83,7 @@ public class CustomClassLoader extends ClassLoader {
                     break;
                 }
 
-                if (entry.getName().equals(classPath)) {
+                if (entry.getName().equals(classFilePath)) {
                     classBytes = IOUtils.toByteArray(zipInputStream);
                     break;
                 }
