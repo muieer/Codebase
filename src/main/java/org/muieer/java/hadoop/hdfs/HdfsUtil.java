@@ -1,5 +1,6 @@
 package org.muieer.java.hadoop.hdfs;
 
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
 import org.apache.hadoop.fs.permission.FsAction;
 import org.apache.hadoop.fs.permission.FsPermission;
@@ -103,6 +104,36 @@ public class HdfsUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    public static Boolean containsFileNameInCurrentDirectory(FileSystem fs, String currentPath, String fileName) throws Exception{
+
+        var path = new Path(currentPath);
+        var contains = false;
+
+        if (!fs.exists(path)) {
+            return false;
+        }
+
+        try {
+            for (FileStatus status : fs.listStatus(path)) {
+                if (status.getPath().getName().contains(fileName)) {
+                    contains = true;
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.error("", e);
+        }
+
+        return contains;
+
+    }
+
+    public static void main(String[] args) throws Exception {
+
+        FileSystem fileSystem = FileSystem.get(new Configuration());
 
     }
 

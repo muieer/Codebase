@@ -76,7 +76,7 @@
 
     <build>
         <plugins>
-<!--            https://maven.apache.org/plugins/maven-source-plugin/ -->
+<!--            https://maven.apache.org/plugins/maven-source-plugin/ Jar 文件中包含源代码 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
