@@ -1,6 +1,7 @@
 package org.muieer.scala
 
 import java.text.SimpleDateFormat
+import java.time.{Clock, Instant, LocalDateTime, ZoneId}
 import java.time.temporal.{ChronoUnit, TemporalUnit}
 import java.util.{Calendar, Date}
 
@@ -27,11 +28,26 @@ object DateUtil {
     calendar.get(Calendar.DAY_OF_WEEK)
   }
 
+  def millisToDayOfWeek1(millis: Long): Int = {
+    val localDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(millis), ZoneId.systemDefault())
+    localDateTime.getDayOfWeek.getValue
+  }
+
   // 将System.currentTimeMillis()的值转化为Calendar.HOUR_OF_DAY
   def millisToHourOfDay(millis: Long): Int = {
     val calendar = Calendar.getInstance
     calendar.setTimeInMillis(millis)
     calendar.get(Calendar.HOUR_OF_DAY)
+  }
+
+  def main(args: Array[String]): Unit = {
+
+    println(millisToDayOfWeek1(Clock.systemDefaultZone().millis()))
+    println(millisToDayOfWeek(Clock.systemDefaultZone().millis()))
+
+    println(millisToDayOfWeek1(System.currentTimeMillis()))
+    println(millisToDayOfWeek(System.currentTimeMillis()))
+
   }
 
 }
