@@ -3,6 +3,7 @@ package org.muieer.java.time;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
+import java.util.Date;
 
 import static java.time.temporal.ChronoField.INSTANT_SECONDS;
 
@@ -22,6 +23,13 @@ public class JavaTimeAPIExample {
         System.out.println(localDateTimeToString(epochMilliToLocalDateTime(1695342267442L), DateTimeFormatter.BASIC_ISO_DATE));
         System.out.println(localDateTimeToString(epochMilliToLocalDateTime(1695342267442L), DateTimeFormatter.ofPattern("yyyyMMddHH")));
         System.out.println(textToLocalDateTime("20230101 12:00", DateTimeFormatter.ofPattern("yyyyMMdd HH:mm")));
+        System.out.println(localDateTimeToDate(textToLocalDateTime("20230101 12:00", DateTimeFormatter.ofPattern("yyyyMMdd HH:mm"))));
+        System.out.println(localDateTimeToDate(LocalDateTime.now()));
+    }
+
+
+    public static Date localDateTimeToDate(LocalDateTime localDateTime) {
+        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public static LocalDateTime textToLocalDateTime(String text, DateTimeFormatter formatter) {
