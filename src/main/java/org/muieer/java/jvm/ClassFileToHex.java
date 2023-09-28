@@ -22,6 +22,12 @@ public class ClassFileToHex {
         byte[] buffer = new byte[8];
 
         for (int i = 1; inputStream.read(buffer) != -1; i++) {
+            /*
+            * 第 1  行,CA FE BA BE 00 00 00 3D
+            * 魔数是 CAFEBABE，共 4 个字节
+            * minor_version 是 0，共 2 个字节
+            * major_version 是 61，说明是 Java 17，共 2 个字节
+            * */
             System.out.println(String.format(/*左对齐*/"第 %-2d 行,", i) + hexFormat.formatHex(buffer));
         }
 
