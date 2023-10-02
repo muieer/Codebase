@@ -10,6 +10,7 @@ import java.util.HexFormat;
 /*
 * 将 class 文件用 16 进制输出
 * 8 个字节为一行
+* Mac 平台开源 16 进制编辑器：https://github.com/HexFiend/HexFiend.git
 * */
 public class ClassFileToHex {
 
