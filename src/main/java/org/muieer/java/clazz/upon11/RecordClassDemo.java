@@ -9,9 +9,12 @@ public class RecordClassDemo {
 
     public static void main(String[] args) {
         var s1 = new SocialSecurityNumber(new byte[]{1, 2, 3, 4});
+        System.out.println("s1 " + s1);
         var s2 = new SocialSecurityNumber(new byte[]{1, 2, 3, 4});
-        System.out.println(s1.equals(s2));
-        System.out.println(s1);
+        System.out.println("s2 " + s2);
+        System.out.println("s1 equals s2 res is " + s1.equals(s2));
+        s1.ssn()[0] = 0;
+        System.out.println("执行 s1.ssn()[0] = 0 语句后 ssn() 结果是：" + Arrays.toString(s1.ssn()));
     }
 }
 
@@ -22,6 +25,12 @@ record SocialSecurityNumber(byte[] ssn) {
 
     public SocialSecurityNumber {
         if (ssn.length < 2) throw new RuntimeException("ssn length less than 2");
+    }
+
+    // 只能保证指针地址的不变，对应的数据内容还是可以修改，所以返回结果需要深拷贝
+    @Override
+    public byte[] ssn() {
+        return Arrays.copyOf(this.ssn, this.ssn.length);
     }
 
     @Override
