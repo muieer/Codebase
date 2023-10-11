@@ -1,4 +1,4 @@
-package org.muieer.java;
+package org.muieer.java.collection.map;
 
 import java.util.HashMap;
 import java.util.Map;
