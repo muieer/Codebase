@@ -11,7 +11,7 @@ public class ListDemo {
         twoDimensionalListToTwoDimensionalArray();
     }
 
-    // 二维 List 转二维数组
+    // 二维 List 转二维 int 数组
     public static void twoDimensionalListToTwoDimensionalArray() {
 
         List<List<Integer>> list = new ArrayList<>(){{
