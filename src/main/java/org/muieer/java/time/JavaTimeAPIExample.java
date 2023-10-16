@@ -27,7 +27,6 @@ public class JavaTimeAPIExample {
         System.out.println(localDateTimeToDate(LocalDateTime.now()));
     }
 
-
     public static Date localDateTimeToDate(LocalDateTime localDateTime) {
         return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
