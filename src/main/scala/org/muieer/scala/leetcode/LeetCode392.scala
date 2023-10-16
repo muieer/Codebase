@@ -1,7 +1,5 @@
 package org.muieer.scala.leetcode
 
-import scala.util.control.Breaks.break
-
 object LeetCode392 {
 
   def main(args: Array[String]): Unit = {
