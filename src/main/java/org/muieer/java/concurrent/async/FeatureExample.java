@@ -2,7 +2,7 @@ package org.muieer.java.concurrent.async;
 
 import java.util.concurrent.*;
 
-public class FutureExample {
+public class FeatureExample {
 
     public static void main(String[] args) throws Exception{
 

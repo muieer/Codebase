@@ -107,7 +107,7 @@ public class HdfsUtil {
 
     }
 
-    public static Boolean containsFileNameInCurrentDirectory(FileSystem fs, String currentPath, String fileName) throws Exception{
+    public static boolean containsFileNameInCurrentDirectory(FileSystem fs, String currentPath, String fileName) throws Exception{
 
         var path = new Path(currentPath);
         var contains = false;
@@ -134,6 +134,10 @@ public class HdfsUtil {
     public static void main(String[] args) throws Exception {
 
         FileSystem fileSystem = FileSystem.get(new Configuration());
+        // 绝对路径
+        System.out.println(new Path(args[0]).getParent().toUri().getPath());
+        // 文件名
+        System.out.println(new Path(args[0]).getName());
 
     }
 
