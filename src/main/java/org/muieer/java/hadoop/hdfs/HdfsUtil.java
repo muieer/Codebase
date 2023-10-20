@@ -8,6 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 public class HdfsUtil {
 
@@ -107,6 +111,7 @@ public class HdfsUtil {
 
     }
 
+    // 查看当前目录下，是否存在含有某个名字的文件和目录
     public static boolean containsFileNameInCurrentDirectory(FileSystem fs, String currentPath, String fileName) throws Exception{
 
         var path = new Path(currentPath);
@@ -130,6 +135,21 @@ public class HdfsUtil {
         return contains;
 
     }
+
+    // 得到当前目录下，含有某个名字的文件和目录的 Path 列表
+    public static List<Path> getContainsFileNamePathInCurrentDirectory(FileSystem fs, String currentPath, String fileName) throws Exception {
+        var path = new Path(currentPath);
+
+        if (!fs.exists(path)) {
+            return List.of();
+        }
+
+        return Arrays.stream(fs.listStatus(path))
+                .map(FileStatus::getPath)
+                .filter(fileStatusPath -> fileStatusPath.getName().contains(fileName))
+                .collect(toList());
+    }
+
 
     public static void main(String[] args) throws Exception {
 
