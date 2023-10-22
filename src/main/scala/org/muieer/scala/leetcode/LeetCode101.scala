@@ -2,6 +2,7 @@ package org.muieer.scala.leetcode
 
 object LeetCode101 {
 
+  // 思考迭代解法
   def isSymmetric(root: TreeNode): Boolean = {
     compute(root.left, root.right)
   }
