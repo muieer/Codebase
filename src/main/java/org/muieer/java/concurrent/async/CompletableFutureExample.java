@@ -11,14 +11,16 @@ import java.util.stream.Stream;
 
 /*
 * https://www.baeldung.com/java-completablefuture
+* CompletableFuture 是一个简化异步计算的框架
+* 调用链的阻塞状态是由头结点决定的，若头结点是异步的，后续节点即使是同步的，也不会阻塞
 * */
 public class CompletableFutureExample {
 
     public static void main(String[] args) throws Exception {
 
-        ExecutorService executorService = Executors.newFixedThreadPool(3);
-
+        var executorService = Executors.newFixedThreadPool(3);
         var start = Instant.now().toEpochMilli();
+
         // 异步
         var futureA = executorService.submit(() -> {
             Thread.sleep(5000);
@@ -28,21 +30,34 @@ public class CompletableFutureExample {
         // 异步
         CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> {
             try {
-                return futureA.get();
+                return futureA.get(); // 因为是异步，所以此处不会阻塞
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);
             }
         });
 
-        // 同步，此处阻塞
-        System.out.println("blocked");
-        CompletableFuture.completedFuture("blocked").thenApply(str -> {
+        // thenApply 是同步操作，但不会阻塞在此处等待上游完成，因为上游是异步的，上游完成时会回调该操作
+        future1.thenApply(str -> {
             try {
-                return futureA.get();
-            } catch (InterruptedException | ExecutionException e) {
+                // future1 执行结束，触发此操作，也不会阻塞调用被调用线程
+                Thread.sleep(20000);
+                System.out.println(123 + str);
+                return str;
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         });
+
+
+        // 同步，此处阻塞，因为上游是同步操作
+        CompletableFuture.completedFuture("blocked").thenApply(str -> {
+            try {
+                System.out.println(str);
+                return futureA.get(); // 该操作是同步的
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+        }).thenAcceptAsync(System.out::println);
 
         // 异步
         var futureB = executorService.submit(() -> {
@@ -72,9 +87,12 @@ public class CompletableFutureExample {
             }
         });
 
+        // 等待所有异步操作完成：方式一
 //        CompletableFuture<Void> allFuture = CompletableFuture.allOf(future1, future2, future3);
 //        allFuture.get();
 //        System.out.println(List.of(future1.get(), future2.get(), future3.get()));
+
+        // 等待所有异步操作完成：方式二
         List<String> res = Stream.of(future1, future2, future3).map(CompletableFuture::join).collect(Collectors.toList());
         System.out.println(res);
         System.out.println(Instant.now().toEpochMilli() - start);
