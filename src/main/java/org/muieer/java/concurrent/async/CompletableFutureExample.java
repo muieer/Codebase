@@ -16,7 +16,29 @@ import java.util.stream.Stream;
 * */
 public class CompletableFutureExample {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
+        dealException();
+    }
+
+    static void dealException() {
+        CompletableFuture.supplyAsync(() -> {
+            throw new RuntimeException();
+        }).handle/*Async*/((obj, throwable) -> {
+            try {
+                System.out.println("sleep 3s");
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            if (throwable != null) {
+                throw new RuntimeException();
+            }
+            return obj;
+        }).join();  // 获取异步执行结果，不然控制台不会显示报错结果
+    }
+
+    // 异步计算调用链示例
+    static void flowDemo() {
 
         var executorService = Executors.newFixedThreadPool(3);
         var start = Instant.now().toEpochMilli();
@@ -102,6 +124,5 @@ public class CompletableFutureExample {
 //        System.out.println(res);
 
         System.out.println("now - start = " + (Instant.now().toEpochMilli() - start));
-
     }
 }
