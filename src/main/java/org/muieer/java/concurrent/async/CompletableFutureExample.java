@@ -10,7 +10,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /*
-* https://www.baeldung.com/java-completablefuture
+* blog1: https://www.baeldung.com/java-completablefuture
+* blog2: https://tech.meituan.com/2022/05/12/principles-and-practices-of-completablefuture.html
 * CompletableFuture 是一个简化异步计算的框架
 * 调用链的阻塞状态是由头结点决定的，若头结点是异步的，后续节点即使是同步的，也不会阻塞
 * */

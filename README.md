@@ -1,4 +1,4 @@
-# codebase
+# Codebase
 ## 介绍
 本项目代码基于 JDK 17 开发
 ## Example
