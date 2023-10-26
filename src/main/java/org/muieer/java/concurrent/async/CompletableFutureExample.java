@@ -20,7 +20,7 @@ public class CompletableFutureExample {
         dealException();
     }
 
-    // 使用 jconsole 观察线程变化
+    // 使用 jconsole 观察线程变化：长久以后，看到峰值线程数量 - 活跃线程数量 = 线程池数量(3) + 主线程 + 2 个异步调用线程 = 6
     static void dealException() {
 
         var executorService = Executors.newFixedThreadPool(3);
@@ -36,28 +36,30 @@ public class CompletableFutureExample {
                 throw new RuntimeException(e);
             }
             throw new RuntimeException();
-        }).handleAsync((obj, throwable) -> { // 又会异步线程的基础上开启一个新线程
+        }).handleAsync((obj, throwable) -> { // 会在当前异步线程的基础上开启一个新的异步线程
+            String res = "success";
             try {
                 System.out.println("sleep 20s");
                 Thread.sleep(20000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            callBack();
+
             if (throwable != null) {
 //                throw new RuntimeException();
-                System.out.println("has throwable");
+                res = "has throwable";
             }
+            callBack(res);
             return obj;
         })
-//        .join() // 异步调用，使用回调，而不是 join() get() 阻塞调用线程，这样就又变成了同步
+//        .join() // 异步调用使用回调，而不是 join() get() 阻塞调用线程，这样就又变成了同步
         ;
 
         System.out.println("执行到方法尾部用时 " + (Instant.now().toEpochMilli() - start) + "ms");
     }
 
-    static void callBack() {
-        System.out.println("async callBack");
+    static void callBack(String res) {
+        System.out.println("async callBack res: " + res);
     }
 
     // 异步计算调用链示例
