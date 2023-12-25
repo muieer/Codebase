@@ -82,6 +82,11 @@
             <artifactId>jedis</artifactId>
             <version>5.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.tensorflow</groupId>
+            <artifactId>tensorflow-hadoop</artifactId>
+            <version>1.15.0</version>
+        </dependency>
     </dependencies>
 
     <build>
