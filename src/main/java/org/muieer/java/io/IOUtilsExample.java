@@ -4,6 +4,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataInputStream;
+import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 
@@ -11,7 +12,6 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 public class IOUtilsExample {
-
 
     /*
     * InputStream 是字节输入流，处理的是字节(byte)
@@ -22,17 +22,24 @@ public class IOUtilsExample {
     * */
 
     static final int EOF = -1;
-    static FileSystem fs;
 
     public static void main(String[] args) throws Exception {
 
-        fs = FileSystem.get(new Configuration());
         inputStreamToByteArrayOutputStream(args[0]);
+    }
 
+    public static void writeToFile(String[] args) throws Exception{
+        try (
+                FileSystem fs = FileSystem.get(new Configuration());
+                FSDataOutputStream outputStream = fs.create(new Path(args[0]))
+        ) {
+            IOUtils.write("test".getBytes(), outputStream);
+        }
     }
 
     public static void inputStreamToByteArrayOutputStream(String path) throws Exception {
         try (
+                FileSystem fs = FileSystem.get(new Configuration());
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 FSDataInputStream inputStream = fs.open(new Path(path));
         ) {
@@ -42,7 +49,10 @@ public class IOUtilsExample {
     }
 
     public static void StringToInputStream(String str) {
-        try (InputStream inputStream = IOUtils.toInputStream(str, StandardCharsets.UTF_8)) {
+        try (
+                FileSystem fs = FileSystem.get(new Configuration());
+                InputStream inputStream = IOUtils.toInputStream(str, StandardCharsets.UTF_8)
+        ) {
             int b;
             while (EOF != (b = inputStream.read())) {
                 System.out.println(b);

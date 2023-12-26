@@ -8,6 +8,8 @@ import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.tensorflow.example.*;
+import org.tensorflow.hadoop.util.TFRecordReader;
+import org.tensorflow.hadoop.util.TFRecordWriter;
 
 import java.util.List;
 
@@ -26,7 +28,8 @@ public class TensorflowTfrecordDemo {
                 FileSystem fs = FileSystem.get(new Configuration());
                 FSDataInputStream inputStream = fs.open(new Path(args[0]))
         ) {
-            byte[] bytes = IOUtils.toByteArray(inputStream);
+            TFRecordReader tfRecordReader = new TFRecordReader(inputStream, true);
+            byte[] bytes = tfRecordReader.read();
             Example example = Example.parseFrom(bytes);
             System.out.println(example);
         }
@@ -39,7 +42,8 @@ public class TensorflowTfrecordDemo {
                 FSDataOutputStream outputStream = fs.create(new Path(args[0]))
         ) {
             System.out.println(example);
-            IOUtils.write(example.toByteArray(), outputStream);
+            TFRecordWriter tfRecordWriter = new TFRecordWriter(outputStream);
+            tfRecordWriter.write(example.toByteArray());
         }
     }
 
@@ -48,7 +52,7 @@ public class TensorflowTfrecordDemo {
         Example.Builder exampleBuilder = Example.newBuilder();
         Features.Builder featuresBuilder = Features.newBuilder();
 
-        Int64List int64List = Int64List.newBuilder().addAllValue(List.of(1L, 2L)).build();
+        Int64List int64List = Int64List.newBuilder().addAllValue(List.of(1L/*, 2L*/)).build();
         Feature longFeature = Feature.newBuilder().setInt64List(int64List).build();
         featuresBuilder.putFeature("cityId", longFeature);
 
