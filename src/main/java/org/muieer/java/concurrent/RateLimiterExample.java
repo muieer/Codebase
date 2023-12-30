@@ -9,11 +9,15 @@ import java.time.Instant;
 
 public class RateLimiterExample {
 
+    /*
+    * io.github.resilience4j.ratelimiter 灵活性更高，可以配置请求周期的时间长度，而 Google Guava 请求周期只能是1秒
+    * */
     public static void main(String[] args) {
         usingGoogleGuavaRateLimiter();
         usingResilience4jRateLimiter();
     }
 
+    // https://resilience4j.readme.io/docs/ratelimiter
     public static void usingResilience4jRateLimiter() {
 
         var rateLimiterConfig = RateLimiterConfig.custom()
@@ -33,6 +37,7 @@ public class RateLimiterExample {
 
     public static void usingGoogleGuavaRateLimiter() {
 
+        // 每秒最大可以请求的数量
         var rateLimiter = RateLimiter.create(10);
 
         long start = Instant.now().toEpochMilli();
