@@ -92,6 +92,12 @@
             <artifactId>protobuf-java</artifactId>
             <version>3.25.1</version>
         </dependency>
+<!--        https://resilience4j.readme.io/docs/ratelimiter-->
+        <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-ratelimiter</artifactId>
+            <version>2.2.0</version>
+        </dependency>
     </dependencies>
 
     <build>
