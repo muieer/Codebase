@@ -150,15 +150,31 @@ public class HdfsUtil {
                 .collect(toList());
     }
 
+    public static boolean emptyDirectory(FileSystem fs, String currentPath, boolean skipHiddenFile) throws Exception {
+        var path = new Path(currentPath);
+        if (!fs.exists(path)) {
+            return true;
+        }
+        // 过滤隐藏文件
+        return Arrays.stream(fs.listStatus(path))
+                .filter(fileStatus -> {
+                    if (skipHiddenFile) {
+                        return !fileStatus.getPath().getName().startsWith(".");
+                    } else {
+                        return true;
+                    }
+                }).count() == 0;
+    }
 
     public static void main(String[] args) throws Exception {
 
         FileSystem fileSystem = FileSystem.get(new Configuration());
-        // 绝对路径
+        // 父目录绝对路径
         System.out.println(new Path(args[0]).getParent().toUri().getPath());
         // 文件名
         System.out.println(new Path(args[0]).getName());
-
+        // 是否为空目录
+        System.out.println(emptyDirectory(fileSystem, args[0], true));
     }
 
 }
