@@ -1,4 +1,4 @@
-package org.muieer.java.text.json.regex;
+package org.muieer.java.text.regex;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
