@@ -24,17 +24,17 @@ public class AliasMethodDiscreteSamplerExample {
         long start = System.currentTimeMillis();
         SharedStateDiscreteSampler sampler = AliasMethodDiscreteSampler.of(rng, probabilities);
         long end = System.currentTimeMillis();
-        System.out.println("pre-processing cost " + (end - start) + " ms");
+        System.out.printf("pre-processing cost %d ms\n", end - start);
 
         start = System.currentTimeMillis();
         Map<Integer, List<Integer>> groupMap = Stream.of(new Object[1_000_000])
                 .map(e -> sampler.sample())
                 .collect(Collectors.groupingBy(Integer::intValue));
         end = System.currentTimeMillis();
-        System.out.println("sampling cost " + (end - start) + " ms");
+        System.out.printf("sampling cost %d ms\n", end - start);
 
         // 观察采样结果的分布是否与概率表符合
-        groupMap.forEach((key, value) -> System.out.println(key + ":" + value.size()));
+        groupMap.forEach((key, value) -> System.out.printf("%d:%d\n", key, value.size()));
 
     }
 }
