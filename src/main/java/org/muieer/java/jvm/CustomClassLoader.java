@@ -23,7 +23,7 @@ public class CustomClassLoader extends ClassLoader {
         fileSystem = FileSystem.get(new Configuration());
         this.jarPath = jarPath;
         if (!fileSystem.exists(new Path(jarPath))) {
-            throw new Exception("jar not found");
+            throw new RuntimeException("jar not found");
         }
         this.loadClasses = new ConcurrentHashMap<>();
     }
