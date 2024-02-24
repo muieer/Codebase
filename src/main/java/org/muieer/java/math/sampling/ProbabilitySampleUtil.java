@@ -1,4 +1,4 @@
-package org.muieer.java.utils;
+package org.muieer.java.math.sampling;
 
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
