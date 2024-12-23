@@ -2,13 +2,25 @@ package org.muieer.java.collection.list;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class ListDemo {
 
     public static void main(String[] args) {
-
+        sortList();
         twoDimensionalListToTwoDimensionalArray();
+    }
+
+    public static void sortList() {
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(3);
+        list.sort(Comparator.comparing(Integer::intValue).reversed());
+        System.out.println(list);
+
     }
 
     // 二维 List 转二维 int 数组
