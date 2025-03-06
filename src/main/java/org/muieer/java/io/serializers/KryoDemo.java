@@ -26,14 +26,14 @@ public class KryoDemo {
         Input input1 = new Input(new FileInputStream("file.bin1"));
         ArrayList object1 = kryo.readObject(input1, ArrayList.class);
         input1.close();
-        System.out.printf("deserialize list: %s\n", object1);
+        System.out.printf("deserialize list1: %s\n", object1);
 
 // ------------ 分割线 ---------------
 
         ArrayList<String> list2 = new ArrayList<>(){{add("test2");}}; // 这种方式，创建出来的是匿名类
 
         // 注册匿名内部类
-        kryo.register(list2.getClass());
+//        kryo.register(list2.getClass());
         System.out.printf("list2 class name: %s\n", list2.getClass());
 
         System.out.printf("serialize list2: %s\n", list2);
