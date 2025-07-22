@@ -7,10 +7,10 @@ object ClosureDemo {
 
   def main(args: Array[String]): Unit = {
     println("xPlusYFunc x is 1")
-    val xPlus1Func = xPlusYFunc(1)
+    val xPlus1Func = xPlusYFunc(y=1)
     println(s"xPlusYFunc result is ${xPlus1Func(1)}")
     println("xPlusDoubleYFunc x is 1")
-    println(s"xPlusDoubleYFunc result is ${xPlusDoubleYFunc(2)(1)}")
+    println(s"xPlusDoubleYFunc result is ${xPlusDoubleYFunc(y=2)(1)}")
   }
 
   def xPlusYFunc(y: Int): Int => Int = {
